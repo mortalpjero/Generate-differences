@@ -1,6 +1,3 @@
+const JSONparse = (item) => JSON.parse(item);
 
-const JSONparse = (item) => {
-  return JSON.parse(item);
-};
-
-export { JSONparse };
+export default JSONparse;

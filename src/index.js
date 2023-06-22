@@ -1,11 +1,10 @@
-import _ from "lodash";
-import { JSONparse } from './parsers.js';
+import JSONparse from './parsers.js';
 import readFile from './readFile.js';
 import sortObj from './sortObj.js';
 import genKeys from './genKeys.js';
 
 const gendiff = (file1, file2) => {
-  let spaceCount = 2;
+  const spaceCount = 2;
   const replacer = ' ';
   const indent = replacer.repeat(spaceCount);
 
@@ -19,26 +18,21 @@ const gendiff = (file1, file2) => {
   const sortedCommonKeys = sortObj(commonKeys);
 
   const contents = [];
-  for (const [key, value] of Object.entries(sortedCommonKeys)) {
-    if (value === "deleted") {
+  Object.entries(sortedCommonKeys).forEach(([key, value]) => {
+    if (value === 'deleted') {
       contents.push(`${indent}- ${key}: ${fileFirstParsed[key]}`);
-    } else if (value === "unchanged") {
+    } else if (value === 'unchanged') {
       contents.push(`${indent}  ${key}: ${fileFirstParsed[key]}`);
-    } else if (value === "changed") {
+    } else if (value === 'changed') {
       contents.push(`${indent}- ${key}: ${fileFirstParsed[key]}`);
       contents.push(`${indent}+ ${key}: ${fileSecondParsed[key]}`);
-    } else if (value === "added") {
+    } else if (value === 'added') {
       contents.push(`${indent}+ ${key}: ${fileSecondParsed[key]}`);
     }
-  }
-
+  });
   contents.join(`${indent}\n`);
 
-  return [
-    '{',
-    ...contents,
-    `}`,
-  ].join('\n');
+  return ['{', ...contents, '}'].join('\n');
 };
 
 export default gendiff;
