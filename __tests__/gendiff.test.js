@@ -1,5 +1,3 @@
-import { expect } from 'expect';
-import test from 'node:test';
 import gendiff from '../src/index.js';
 import readFile from '../src/readFile.js';
 
