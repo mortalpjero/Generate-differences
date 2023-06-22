@@ -1,10 +1,15 @@
-import { readFileSync } from "fs";
-import gendiff from "../bin/gendiff.js";
+import gendiff from "../src/index.js";
+import readFile from "../src/readFile.js";
 
-const resultPlain = readFileSync('__fixtures__/test1OutputDefault.txt', 'utf8');
-const file1 = "./__fixtures__/file1.json";
-const file2 = "./__fixtures__/file2.json";
+const result1Plain = readFile('test1OutputDefault.txt');
+const result2Plain = readFile('test2OutputDefault.txt')
+const file1 = "file1.json";
+const file2 = "file2.json";
 
-test("generate difference for JSON", () => {
-  expect(gendiff(file1, file2)).toEqual(resultPlain);
+test("generate difference for JSON First Test", () => {
+  expect(gendiff(file2,file1)).toEqual(result2Plain);
+});
+
+test("generate difference for JSON Second Test", () => {
+  expect(gendiff(file1, file2)).toEqual(result1Plain);
 });
