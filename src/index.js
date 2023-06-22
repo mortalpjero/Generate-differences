@@ -1,5 +1,4 @@
-import JSONparse from './parsers.js';
-import readFile from './readFile.js';
+import parseFile from './parsers.js';
 import sortObj from './sortObj.js';
 import genKeys from './genKeys.js';
 
@@ -8,11 +7,8 @@ const gendiff = (file1, file2) => {
   const replacer = ' ';
   const indent = replacer.repeat(spaceCount);
 
-  const fileFirstContent = readFile(file1);
-  const fileSecondContent = readFile(file2);
-
-  const fileFirstParsed = JSONparse(fileFirstContent);
-  const fileSecondParsed = JSONparse(fileSecondContent);
+  const fileFirstParsed = parseFile(file1);
+  const fileSecondParsed = parseFile(file2);
 
   const commonKeys = genKeys(fileFirstParsed, fileSecondParsed);
   const sortedCommonKeys = sortObj(commonKeys);
