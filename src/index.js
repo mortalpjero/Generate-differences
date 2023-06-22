@@ -1,16 +1,16 @@
 import _ from "lodash";
 import { JSONparse } from './parsers.js';
-import getFile from './getFile.js';
+import readFile from './readFile.js';
 import sortObj from './sortObj.js';
 import genKeys from './genKeys.js';
 
-const getdiff = (file1, file2) => {
+const gendiff = (file1, file2) => {
   let spaceCount = 2;
   const replacer = ' ';
   const indent = replacer.repeat(spaceCount);
 
-  const fileFirstContent = getFile(file1);
-  const fileSecondContent = getFile(file2);
+  const fileFirstContent = readFile(file1);
+  const fileSecondContent = readFile(file2);
 
   const fileFirstParsed = JSONparse(fileFirstContent);
   const fileSecondParsed = JSONparse(fileSecondContent);
@@ -41,4 +41,4 @@ const getdiff = (file1, file2) => {
   ].join('\n');
 };
 
-export default getdiff;
+export default gendiff;
