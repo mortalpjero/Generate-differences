@@ -22,30 +22,36 @@ const stylish = (construct) => {
   const iter = (currentValue, depth) => {
     const replacer = ' ';
     const spaceCountIter = 4;
-    const indent = replacer.repeat((depth * spaceCountIter) - 2);
-    const bracketIndent = replacer.repeat(spaceCountIter * (depth - 1));
+    const indent = replacer.repeat(depth * spaceCountIter - 2);
+    const bracketIndent = replacer.repeat((depth - 1) * spaceCountIter);
 
     const content = currentValue.map((constructed) => {
       const [key, type, value] = [getKey(constructed), getType(constructed), getValue(constructed)];
+      const valueString = stringify(value, depth + 1);
+
       if (type === 'added') {
-        return `${indent}+ ${key}: ${stringify(value, depth + 1)}`;
-      } if (type === 'deleted') {
-        return `${indent}- ${key}: ${stringify(value, depth + 1)}`;
-      } if (type === 'unchanged') {
-        return `${indent}  ${key}: ${stringify(value, depth + 1)}`;
-      } if (type === 'changed') {
-        return [
-          `${indent}- ${key}: ${stringify(value[0], depth + 1)}`,
-          `${indent}+ ${key}: ${stringify(value[1], depth + 1)}`,
-        ].join('\n');
-      } if (type === 'nested') {
+        return `${indent}+ ${key}: ${valueString}`;
+      }
+      if (type === 'deleted') {
+        return `${indent}- ${key}: ${valueString}`;
+      }
+      if (type === 'unchanged') {
+        return `${indent}  ${key}: ${valueString}`;
+      }
+      if (type === 'changed') {
+        const [oldValue, newValue] = value;
+        return `${indent}- ${key}: ${stringify(oldValue, depth + 1)}\n${indent}+ ${key}: ${stringify(newValue, depth + 1)}`;
+      }
+      if (type === 'nested') {
         return `${indent}  ${key}: ${iter(value, depth + 1)}`;
       }
-      console.log('yeeeees');
+
       return null;
     });
+
     return ['{', ...content, `${bracketIndent}}`].join('\n');
   };
+
   return iter(construct, 1);
 };
 
