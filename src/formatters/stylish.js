@@ -25,42 +25,40 @@ const stringify = (value, currentDepth) => {
 // and processes it, to give it right iteration and build a desired output tree.
 // The indentation is calculated by keeping track of depth of the tree.
 
-const stylish = (construct) => {
-  const iter = (currentValue, depth) => {
-    const replacer = ' ';
-    const spaceCountIter = 4;
-    const indent = replacer.repeat((depth * spaceCountIter) - 2);
-    const bracketIndent = replacer.repeat(spaceCountIter * (depth - 1));
+const iter = (currentValue, depth) => {
+  const replacer = ' ';
+  const spaceCountIter = 4;
+  const indent = replacer.repeat((depth * spaceCountIter) - 2);
+  const bracketIndent = replacer.repeat(spaceCountIter * (depth - 1));
 
-    const content = currentValue.map((constructed) => {
-      const [key, type, value] = [getKey(constructed), getType(constructed), getValue(constructed)];
-      // If the types are simple,such as 'added', 'deleted', 'changed' or 'unchenged'.
-      // the output is added to the final tree.
-      // If the output is complex (the value of a key has multiple values in it)
-      // the Iter function is recursively called.
-      switch (type) {
-        case 'added':
-          return `${indent}+ ${key}: ${stringify(value, depth + 1)}`;
-        case 'deleted':
-          return `${indent}- ${key}: ${stringify(value, depth + 1)}`;
-        case 'unchanged':
-          return `${indent}  ${key}: ${stringify(value, depth + 1)}`;
-        case 'changed':
-          return [
-            `${indent}- ${key}: ${stringify(value[0], depth + 1)}`,
-            `${indent}+ ${key}: ${stringify(value[1], depth + 1)}`,
-          ].join('\n');
-        case 'nested':
-          return `${indent}  ${key}: ${iter(value, depth + 1)}`;
-        default:
-          return null;
-      }
-    });
+  const content = currentValue.map((constructed) => {
+    const [key, type, value] = [getKey(constructed), getType(constructed), getValue(constructed)];
+    // If the types are simple,such as 'added', 'deleted', 'changed' or 'unchenged'.
+    // the output is added to the final tree.
+    // If the output is complex (the value of a key has multiple values in it)
+    // the Iter function is recursively called.
+    switch (type) {
+      case 'added':
+        return `${indent}+ ${key}: ${stringify(value, depth + 1)}`;
+      case 'deleted':
+        return `${indent}- ${key}: ${stringify(value, depth + 1)}`;
+      case 'unchanged':
+        return `${indent}  ${key}: ${stringify(value, depth + 1)}`;
+      case 'changed':
+        return [
+          `${indent}- ${key}: ${stringify(value[0], depth + 1)}`,
+          `${indent}+ ${key}: ${stringify(value[1], depth + 1)}`,
+        ].join('\n');
+      case 'nested':
+        return `${indent}  ${key}: ${iter(value, depth + 1)}`;
+      default:
+        return null;
+    }
+  });
 
-    return ['{', ...content, `${bracketIndent}}`].join('\n');
-  };
-
-  return iter(construct, 1);
+  return ['{', ...content, `${bracketIndent}}`].join('\n');
 };
+
+const stylish = (construct) => iter(construct, 1);
 
 export default stylish;

@@ -11,8 +11,6 @@ const construct = (obj1, obj2) => {
   const sortedValues = _.sortBy(uniqueKeys);
 
   const result = sortedValues.map((key) => {
-    let childResult; // Declare the variable here
-
     switch (true) {
       case !Object.hasOwn(obj1, key):
         return { key, type: 'added', value: obj2[key] };
@@ -28,8 +26,7 @@ const construct = (obj1, obj2) => {
           to: obj2[key],
         };
       default:
-        childResult = construct(obj1[key], obj2[key]); // Assign the value here
-        return { key, type: 'nested', children: childResult };
+        return { key, type: 'nested', children: construct(obj1[key], obj2[key]) };
     }
   });
 
