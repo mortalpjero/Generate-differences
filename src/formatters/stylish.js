@@ -41,6 +41,7 @@ const stylish = (construct) => {
       } if (type === 'nested') {
         return `${indent}  ${key}: ${iter(value, depth + 1)}`;
       }
+      console.log('yeeeees');
       return null;
     });
     return ['{', ...content, `${bracketIndent}}`].join('\n');

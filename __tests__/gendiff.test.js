@@ -9,8 +9,11 @@ const file2yaml = 'file2.yaml';
 const file1yml = 'file1.yml';
 const file2yml = 'file2.yml';
 
+const formatErr = new Error(`Wrong file format: normal. Supported formats: 'stylish'`);
+
 test('generate difference for JSON', () => {
   expect(gendiff(file1json, file2json)).toEqual(result1Plain);
+  expect(() => gendiff(file1json, file2json, 'normal')).toThrow(formatErr);
 });
 
 test('generate difference for YAML', () => {

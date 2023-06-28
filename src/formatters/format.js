@@ -4,11 +4,8 @@ const formatCase = (tree, formatName) => {
   if (formatName === 'stylish') {
     return stylish(tree);
   }
-  if (formatName === 'plain') {
-    console.log('test');
-  }
 
-  return 'wrong format';
+  throw new Error(`Wrong file format: ${formatName}. Supported formats: 'stylish'`);
 };
 
 export default formatCase;
