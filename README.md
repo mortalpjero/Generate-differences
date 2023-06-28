@@ -8,3 +8,7 @@
 
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/mortalpjero/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/mortalpjero/frontend-project-46/actions)
+
+## Calling options
+
+[![asciicast](https://asciinema.org/a/yaBxjsa2ybDpe9boptsJBDuCn.svg)](https://asciinema.org/a/yaBxjsa2ybDpe9boptsJBDuCn)
