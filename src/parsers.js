@@ -1,18 +1,19 @@
+import _ from 'lodash';
 import YAML from 'js-yaml';
 import readFile from './readFile.js';
 
 const parseFile = (file) => {
   const fileContent = readFile(file);
-  const extension = file.split('.').pop();
-  let result = {};
+  const splitted = file.split('.');
+  const extension = _.last(splitted);
   if (extension === 'json') {
-    result = JSON.parse(fileContent);
+    return JSON.parse(fileContent);
   }
   if (extension === 'yaml' || extension === 'yml') {
-    result = YAML.load(fileContent);
+    return YAML.load(fileContent);
   }
 
-  return result;
+  throw new Error(`Wrong file extension: '${extension}'. Supported formats: 'JSON', 'YAML', 'YML'`);
 };
 
 export default parseFile;
