@@ -14,7 +14,7 @@ const formatCase = (tree, formatName) => {
   if (formatName === 'json') {
     return json(tree);
   }
-  throw new Error(`Wrong file format: ${formatName}. Supported formats: 'stylish'`);
+  throw new Error(`Wrong file format: ${formatName}. Supported formats: 'stylish', 'plain', 'json'`);
 };
 
 export default formatCase;

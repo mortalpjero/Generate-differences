@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-// This code is comparing two objects and makes a tree of results.
+// This code compares two objects and makes a tree of results.
 // The item of this tree has 'key', 'type', 'value'.
 // If the 'value' is not equal to 'nested', that means, that it is a leaf of
 
